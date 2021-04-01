@@ -8,10 +8,12 @@ function App() {
   const [data, setData] = useState([]); //store data from the NASA api
 
   useEffect(() => {
+    // Fetching datafrom the api, just run once
     const fecthData = async () => {
       await axios
         .get("https://api.nasa.gov/neo/rest/v1/neo/browse?", {
           params: {
+            // later if we use a private api it we'll be easier to hide api key in .env file
             api_key: "DEMO_KEY",
           },
         })

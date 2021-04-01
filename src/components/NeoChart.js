@@ -1,3 +1,4 @@
+// This components take the data fetched from the NASA api. it display it with a google chart component.
 import Chart from "react-google-charts";
 import { Spinner } from "react-bootstrap";
 import average from "../helpers/average";
@@ -5,6 +6,7 @@ import average from "../helpers/average";
 const NeoChart = ({ data }) => {
   // transform data to be handle by component google chart
   const chartResult = [
+    // the first array give the title of each value that we inject in the google chart
     ["NEO Name", "Min estimated diameter (km)", "Max estimated diameter (km)"],
     ...data.map((item) => {
       return [item.name, item.min, item.max];
@@ -27,6 +29,7 @@ const NeoChart = ({ data }) => {
             <span className="sr-only">Loading...</span>
           </Spinner>
         }
+        //passing data
         data={chartResult}
         //setup the chart
         options={{
