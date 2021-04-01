@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import NeoChart from "./components/NeoChart";
 import axios from "axios";
 import setUpData from "./helpers/setUpData";
 
@@ -36,7 +37,11 @@ function App() {
   }, []);
 
   console.log(data);
-  return <div>dataChart</div>;
+  return (
+    <div>
+      <NeoChart data={data}></NeoChart>
+    </div>
+  );
 }
 
 export default App;
