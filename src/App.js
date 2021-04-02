@@ -1,5 +1,8 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import React, { useEffect, useState } from "react";
 
+import FilterButton from "./components/FilterButton";
 import NeoChart from "./components/NeoChart";
 import axios from "axios";
 import setUpData from "./helpers/setUpData";
@@ -41,6 +44,7 @@ function App() {
   console.log(data);
   return (
     <div>
+      <FilterButton />
       <NeoChart data={data}></NeoChart>
     </div>
   );
