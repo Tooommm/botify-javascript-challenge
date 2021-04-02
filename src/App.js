@@ -10,6 +10,15 @@ import setUpData from "./helpers/setUpData";
 function App() {
   const [data, setData] = useState([]); //store data from the NASA api
   const [itemList, setItemList] = useState([]);
+  const [selectedPlanet, setSelectedPlanet] = useState("Earth"); //Define Earth like default planet for the filter
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSelected = (planet = "Earth") => {
+    // passing to the filter button this finction change the selected planet and filter data
+    setSelectedPlanet(planet);
+    const newData = data.filter((item) => item.orbiting_body === planet);
+    setFilteredData(newData);
+  };
 
   useEffect(() => {
     // Fetching datafrom the api, just run once
@@ -51,12 +60,17 @@ function App() {
     defineList();
   }, [data]);
 
-  console.log(data);
-  console.log(itemList);
+  //initialize the filtred list
+  useEffect(handleSelected, [data]);
+
   return (
     <div>
-      <FilterButton itemList={itemList} />
-      <NeoChart data={data}></NeoChart>
+      <FilterButton
+        itemList={itemList}
+        selectedPlanet={selectedPlanet}
+        handleSelected={handleSelected}
+      />
+      <NeoChart data={filteredData}></NeoChart>
     </div>
   );
 }
