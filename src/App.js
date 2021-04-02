@@ -9,6 +9,7 @@ import setUpData from "./helpers/setUpData";
 
 function App() {
   const [data, setData] = useState([]); //store data from the NASA api
+  const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
     // Fetching datafrom the api, just run once
@@ -41,10 +42,20 @@ function App() {
     fecthData();
   }, []);
 
+  useEffect(() => {
+    // Set the list with all planet avaiable for filtering
+    const defineList = () => {
+      const array = data.map((item) => item.orbiting_body);
+      setItemList([...new Set(array)]);
+    };
+    defineList();
+  }, [data]);
+
   console.log(data);
+  console.log(itemList);
   return (
     <div>
-      <FilterButton />
+      <FilterButton itemList={itemList} />
       <NeoChart data={data}></NeoChart>
     </div>
   );
