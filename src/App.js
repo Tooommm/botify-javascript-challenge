@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import FilterButton from "./components/FilterButton";
 import NeoChart from "./components/NeoChart";
 import NeoTable from "./components/NeoTable";
+import SwitchButton from "./components/SwitchButton";
 import axios from "axios";
 import setUpData from "./helpers/setUpData";
 
@@ -66,6 +67,7 @@ function App() {
 
   return (
     <div>
+      <SwitchButton />
       <FilterButton
         itemList={itemList}
         selectedPlanet={selectedPlanet}
