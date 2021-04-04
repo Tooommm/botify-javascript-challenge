@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import FilterButton from "./components/FilterButton";
 import NeoChart from "./components/NeoChart";
+import NeoTable from "./components/NeoTable";
 import axios from "axios";
 import setUpData from "./helpers/setUpData";
 
@@ -70,7 +71,7 @@ function App() {
         selectedPlanet={selectedPlanet}
         handleSelected={handleSelected}
       />
-      <NeoChart data={filteredData}></NeoChart>
+      <NeoTable data={filteredData}></NeoTable>
     </div>
   );
 }
