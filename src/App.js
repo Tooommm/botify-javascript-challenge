@@ -14,12 +14,18 @@ function App() {
   const [itemList, setItemList] = useState([]);
   const [selectedPlanet, setSelectedPlanet] = useState("Earth"); //Define Earth like default planet for the filter
   const [filteredData, setFilteredData] = useState([]);
+  const [activeChart, setActiveChart] = useState(false); // by default we display a table to expose data
 
   const handleSelected = (planet = "Earth") => {
     // passing to the filter button this finction change the selected planet and filter data
     setSelectedPlanet(planet);
     const newData = data.filter((item) => item.orbiting_body === planet);
     setFilteredData(newData);
+  };
+
+  //function to change active Chart
+  const toggleChart = () => {
+    setActiveChart(!activeChart);
   };
 
   useEffect(() => {
@@ -67,13 +73,17 @@ function App() {
 
   return (
     <div>
-      <SwitchButton />
+      <SwitchButton toggleChart={toggleChart} />
       <FilterButton
         itemList={itemList}
         selectedPlanet={selectedPlanet}
         handleSelected={handleSelected}
       />
-      <NeoTable data={filteredData}></NeoTable>
+      {activeChart ? (
+        <NeoChart data={filteredData} />
+      ) : (
+        <NeoTable data={filteredData}></NeoTable>
+      )}
     </div>
   );
 }
