@@ -1,11 +1,24 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import React, { useEffect, useState } from "react";
 
+import FilterButton from "./components/FilterButton";
 import NeoChart from "./components/NeoChart";
 import axios from "axios";
 import setUpData from "./helpers/setUpData";
 
 function App() {
   const [data, setData] = useState([]); //store data from the NASA api
+  const [itemList, setItemList] = useState([]);
+  const [selectedPlanet, setSelectedPlanet] = useState("Earth"); //Define Earth like default planet for the filter
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSelected = (planet = "Earth") => {
+    // passing to the filter button this finction change the selected planet and filter data
+    setSelectedPlanet(planet);
+    const newData = data.filter((item) => item.orbiting_body === planet);
+    setFilteredData(newData);
+  };
 
   useEffect(() => {
     // Fetching datafrom the api, just run once
@@ -38,10 +51,26 @@ function App() {
     fecthData();
   }, []);
 
-  console.log(data);
+  useEffect(() => {
+    // Set the list with all planet avaiable for filtering
+    const defineList = () => {
+      const array = data.map((item) => item.orbiting_body);
+      setItemList([...new Set(array)]);
+    };
+    defineList();
+  }, [data]);
+
+  //initialize the filtred list
+  useEffect(handleSelected, [data]);
+
   return (
     <div>
-      <NeoChart data={data}></NeoChart>
+      <FilterButton
+        itemList={itemList}
+        selectedPlanet={selectedPlanet}
+        handleSelected={handleSelected}
+      />
+      <NeoChart data={filteredData}></NeoChart>
     </div>
   );
 }
