@@ -3,9 +3,12 @@ import "./Error.css";
 import { Alert, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 
+/* The Error component will display to the user the type of error encountered by the server and offer to reload the page */
+
 const Error = ({ error }) => {
   const [show, setShow] = useState(false);
 
+  // We check the length of the error array. If it is empty it means there is no error and it will return an empty component
   useEffect(() => {
     error.length === 0 ? setShow(false) : setShow(true);
   }, [error]);

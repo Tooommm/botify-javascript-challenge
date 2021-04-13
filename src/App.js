@@ -11,18 +11,18 @@ import axios from "axios";
 import setUpData from "./helpers/setUpData";
 
 function App() {
-  const [data, setData] = useState([]); //store data from the NASA api
-  const [itemList, setItemList] = useState([]);
-  const [selectedPlanet, setSelectedPlanet] = useState("Earth"); //Define Earth like default planet for the filter
-  const [filteredData, setFilteredData] = useState([]);
+  const [neos, setNeos] = useState([]); //store neos from the NASA api
+  const [planetsList, setPlanetsList] = useState([]); // Store the list of planets for the filter button
+  const [selectedPlanet, setSelectedPlanet] = useState("Earth"); // Define Earth like default planet for the filter
+  const [filteredNeos, setFilteredNeos] = useState([]);
   const [activeChart, setActiveChart] = useState(false); // by default we display a table to expose data
   const [error, setError] = useState("");
 
   const handleSelected = (planet = "Earth") => {
-    // passing to the filter button this finction change the selected planet and filter data
+    // passing to the filter button this function change the selected planet and filter neos
     setSelectedPlanet(planet);
-    const newData = data.filter((item) => item.orbiting_body === planet);
-    setFilteredData(newData);
+    const filteredNeos = neos.filter((neo) => neo.orbiting_body === planet);
+    setFilteredNeos(filteredNeos);
   };
 
   //function to change active Chart
@@ -41,23 +41,22 @@ function App() {
           },
         })
         .then((response) => {
-          const dataObject = setUpData(response.data.near_earth_objects);
-          // store information in data using helpers setUpData
-          setData(dataObject);
-          setItemList([
-            ...new Set(dataObject.map((item) => item.orbiting_body)),
+          const neos = setUpData(response.data.near_earth_objects);
+          // Set neos, planetList and filteredNeos
+          setNeos(neos);
+          setPlanetsList([
+            // return an array with all orbiting_body of each neos. new Set to remove all duplicates
+            ...new Set(neos.map((neo) => neo.orbiting_body)),
           ]);
-          setFilteredData(
-            dataObject.filter((item) => item.orbiting_body === "Earth")
-          );
+          setFilteredNeos(neos.filter((neo) => neo.orbiting_body === "Earth"));
         })
         .catch((error) => {
-          //handle error by console log error response from the NASA api
+          //handle error by catching them and pass to the Error component
           setError(error);
         });
     };
-    // Set the list with all planet avaiable for filtering
     fetchData();
+    // next comment is to remove the esllint console warning, give [] for argument to be sure useEffect just run when app is loaded and fetching api only one time.
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -65,14 +64,14 @@ function App() {
       <Error error={error} />
       <SwitchButton toggleChart={toggleChart} />
       <FilterButton
-        itemList={itemList}
+        planetsList={planetsList}
         selectedPlanet={selectedPlanet}
         handleSelected={handleSelected}
       />
       {activeChart ? (
-        <NeoChart data={filteredData} />
+        <NeoChart data={filteredNeos} />
       ) : (
-        <NeoTable data={filteredData}></NeoTable>
+        <NeoTable data={filteredNeos}></NeoTable>
       )}
     </div>
   );
