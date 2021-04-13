@@ -1,0 +1,11 @@
+.alert-danger {
+  height: 100vh;
+  z-index: 2;
+  text-align: center;
+}
+
+.alert-body {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
