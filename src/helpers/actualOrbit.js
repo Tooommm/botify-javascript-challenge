@@ -2,15 +2,19 @@
 // Based on the date closest to the current date
 // Return the planet name
 
-export default function actualOrbit(object) {
+export default function actualOrbit(neo) {
+  //define the actual date
   const date = new Date();
-  const orbit = object.map((item) => item.epoch_date_close_approach);
-  const closest = orbit.reduce((a, b) => {
+  // get all the orbit epoch_date of th neos
+  const orbitsList = neo.map((orbit) => orbit.epoch_date_close_approach);
+  // get the closest value to actual date in obitLists
+  const closest = orbitsList.reduce((a, b) => {
     return Math.abs(b - date.getTime()) < Math.abs(a - date.getTime()) ? b : a;
   });
-  const found = object.find(
-    (element) => element.epoch_date_close_approach === closest
+  // Find the planet around which the neo orbits
+  const actualOrbitingPlanet = neo.find(
+    (orbit) => orbit.epoch_date_close_approach === closest
   );
 
-  return found.orbiting_body;
+  return actualOrbitingPlanet.orbiting_body;
 }

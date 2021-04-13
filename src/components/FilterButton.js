@@ -4,9 +4,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import React from "react";
 
-const FilterButton = ({ itemList, selectedPlanet, handleSelected }) => {
+const FilterButton = ({ planetsList, selectedPlanet, handleSelected }) => {
   //render method to display the list of avaiable planet
-  const displayList = itemList.map((item, index) => {
+  const displayList = planetsList.map((item, index) => {
     return (
       <Dropdown.Item key={index} onClick={() => handleSelected(item)}>
         {item}
